@@ -2,9 +2,9 @@
   "hero": {
     "name": "Niloy Rudra",
     "title": "Full-Stack Engineer",
-    "subtitle": "Node.js · React Native · AI/NLP",
+    "subtitle": "Node.js · React · React Native · AI/NLP",
     "tagline": "7+ years building production-grade, cloud-native systems · Founder of Langphy (22-service distributed system) · Delivered for clients in 🇩🇪 🇬🇧 🇺🇸",
-    "cvUrl": "/Niloy-Rudra-CV.pdf",
+    "cvUrl": "/docs/Niloy-Rudra-CV.pdf",
     "stats": [
       {
         "num": "7+",
@@ -19,8 +19,8 @@
         "label": "Microservices (Langphy)"
       },
       {
-        "num": "3",
-        "label": "Countries Served"
+        "num": "76+",
+        "label": "Clients Served"
       }
     ]
   },

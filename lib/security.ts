@@ -110,23 +110,23 @@ export function clearFailedLogins(username: string): void {
 // match the site's own origin. Browsers always send Origin on cross-site
 // requests, so this blocks forged cross-origin requests.
 
-export function checkOrigin(req: NextRequest): boolean {
-  const origin  = req.headers.get('origin')
-  const referer = req.headers.get('referer')
+// export function checkOrigin(req: NextRequest): boolean {
+//   const origin  = req.headers.get('origin')
+//   const referer = req.headers.get('referer')
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
-  // Allow requests with no origin (e.g. server-side / Postman in dev)
-  if (!origin && !referer) return true
+//   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+//   // Allow requests with no origin (e.g. server-side / Postman in dev)
+//   if (!origin && !referer) return true
 
-  const source = origin ?? referer ?? ''
-  // In dev allow localhost from any port
-  if (process.env.NODE_ENV !== 'production') {
-    if (source.startsWith('http://localhost') || source.startsWith('http://127.0.0.1') || source.startsWith('http://Niloy'))  return true
-  }
-  // In production, origin must match the configured site URL
-  if (siteUrl && source.startsWith(siteUrl)) return true
-  return false
-}
+//   const source = origin ?? referer ?? ''
+//   // In dev allow localhost from any port
+//   if (process.env.NODE_ENV !== 'production') {
+//     if (source.startsWith('http://localhost') || source.startsWith('http://127.0.0.1') || source.startsWith('http://Niloy'))  return true
+//   }
+//   // In production, origin must match the configured site URL
+//   if (siteUrl && source.startsWith(siteUrl)) return true
+//   return false
+// }
 
 // ── 4. CSRF origin check ───────────────────────────────────────
 //
@@ -136,25 +136,25 @@ export function checkOrigin(req: NextRequest): boolean {
 // In PRODUCTION: Origin/Referer must start with NEXT_PUBLIC_SITE_URL.
 //   This blocks forged cross-origin PUT requests to /api/content/*.
 
-// export function checkOrigin(req: NextRequest): boolean {
-//   // ── Dev: skip entirely — CSRF only matters in production ──────
-//   if (process.env.NODE_ENV !== 'production') return true
+export function checkOrigin(req: NextRequest): boolean {
+  // ── Dev: skip entirely — CSRF only matters in production ──────
+  if (process.env.NODE_ENV !== 'production') return true
 
-//   const origin  = req.headers.get('origin')
-//   const referer = req.headers.get('referer')
+  const origin  = req.headers.get('origin')
+  const referer = req.headers.get('referer')
 
-//   // No origin header (e.g. Postman, server-to-server) — allow
-//   if (!origin && !referer) return true
+  // No origin header (e.g. Postman, server-to-server) — allow
+  if (!origin && !referer) return true
 
-//   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
-//   const source  = origin ?? referer ?? ''
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const source  = origin ?? referer ?? ''
 
-//   if (!siteUrl) {
-//     // NEXT_PUBLIC_SITE_URL not configured — log a warning and allow
-//     // (better than silently breaking the admin panel in production)
-//     console.warn('[security] NEXT_PUBLIC_SITE_URL is not set — CSRF check skipped. Set it in env vars.')
-//     return true
-//   }
+  if (!siteUrl) {
+    // NEXT_PUBLIC_SITE_URL not configured — log a warning and allow
+    // (better than silently breaking the admin panel in production)
+    console.warn('[security] NEXT_PUBLIC_SITE_URL is not set — CSRF check skipped. Set it in env vars.')
+    return true
+  }
 
-//   return source.startsWith(siteUrl)
-// }
+  return source.startsWith(siteUrl)
+}
